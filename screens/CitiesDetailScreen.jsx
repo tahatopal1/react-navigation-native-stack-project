@@ -2,11 +2,18 @@ import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { CITIES } from "../data/Cities";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import PlaceCard from "../components/PlaceCard";
+import { useLayoutEffect } from "react";
 
-export default function CitiesDetailScreen({ route }) {
+export default function CitiesDetailScreen({ route, navigation }) {
   const cityId = route.params.cityId;
 
   const selectedCity = CITIES.find((city) => city.id === cityId);
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: selectedCity.name,
+    });
+  }, [selectedCity, navigation]);
 
   return (
     <ScrollView style={styles.container}>
