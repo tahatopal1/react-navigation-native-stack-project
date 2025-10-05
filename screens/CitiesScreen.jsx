@@ -2,11 +2,11 @@ import { StyleSheet, View } from "react-native";
 import { CITIES } from "../data/Cities";
 import CityCard from "../components/CityCard";
 
-export default function CitiesScreen({ navigation }) {
+export default function CitiesScreen() {
   return (
     <View style={styles.container}>
       {CITIES.map((city) => (
-        <CityCard key={Math.random()} {...city} />
+        <CityCard key={city.id} {...city} />
       ))}
     </View>
   );
