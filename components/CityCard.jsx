@@ -1,8 +1,15 @@
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-export default function CityCard({ name, region, population, imgSrc }) {
+export default function CityCard({ id, name, region, population, imgSrc }) {
+  const navigation = useNavigation();
+
+  function navigationHandler() {
+    navigation.navigate("CitiesDetail", { cityId: id });
+  }
+
   return (
-    <Pressable style={styles.container}>
+    <Pressable style={styles.container} onPress={navigationHandler}>
       <View style={styles.imageContainer}>
         <Image style={styles.image} src={imgSrc} />
       </View>
