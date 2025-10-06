@@ -1,17 +1,31 @@
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, ScrollView, StyleSheet, Text, View } from "react-native";
 import { CITIES } from "../data/Cities";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import PlaceCard from "../components/PlaceCard";
 import { useLayoutEffect } from "react";
+import * as Clipboard from "expo-clipboard";
+import IconButton from "../components/IconButton";
 
 export default function CitiesDetailScreen({ route, navigation }) {
   const cityId = route.params.cityId;
 
   const selectedCity = CITIES.find((city) => city.id === cityId);
 
+  const handleCopyToClipboard = async () => {
+    await Clipboard.setStringAsync(selectedCity.detail);
+    Alert.alert("Copied!", "Text copied to clipboard.");
+  };
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: selectedCity.name,
+      headerRight: () => (
+        <IconButton
+          icon="clipboard-outline"
+          onPress={handleCopyToClipboard}
+          color="#0f0700"
+        />
+      ),
     });
   }, [selectedCity, navigation]);
 
