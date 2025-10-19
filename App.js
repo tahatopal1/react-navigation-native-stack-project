@@ -1,22 +1,62 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import MainScreen from "./screens/MainScreen";
 import CitiesScreen from "./screens/CitiesScreen";
 import AboutScreen from "./screens/AboutScreen";
 import CitiesDetailScreen from "./screens/CitiesDetailScreen";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Ionicons } from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
 export default function App() {
+  function DrawerNavigator() {
+    return (
+      <Drawer.Navigator
+        id="drawer"
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#e0c9b3",
+          },
+          headerTintColor: "#0f0700",
+          sceneStyle: {
+            backgroundColor: "#cba580",
+          },
+          drawerContentStyle: { backgroundColor: "#cba580" },
+          drawerInactiveTintColor: "#0f0700",
+          drawerActiveTintColor: "#cba580",
+          drawerActiveBackgroundColor: "#0f0700",
+        }}
+      >
+        <Drawer.Screen
+          name="Cities"
+          component={CitiesScreen}
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="home-outline" color={color} size={size} />
+            ),
+          }}
+        />
+        <Drawer.Screen
+          name="About"
+          component={AboutScreen}
+          options={{
+            drawerIcon: ({ color, size }) => (
+              <Ionicons name="help-outline" color={color} size={size} />
+            ),
+          }}
+        />
+      </Drawer.Navigator>
+    );
+  }
+
   return (
     <>
       <StatusBar style="dark" />
       <NavigationContainer>
         <Stack.Navigator
           id="StackNavigator"
-          initialRouteName="MainMenu"
           screenOptions={{
             headerStyle: {
               backgroundColor: "#e0c9b3",
@@ -28,13 +68,12 @@ export default function App() {
           }}
         >
           <Stack.Screen
-            name="MainMenu"
-            component={MainScreen}
+            name="Drawer"
+            component={DrawerNavigator}
             options={{
-              title: "Main Menu",
+              headerShown: false,
             }}
           />
-          <Stack.Screen name="Cities" component={CitiesScreen} />
           <Stack.Screen
             name="CitiesDetail"
             component={CitiesDetailScreen}
@@ -42,18 +81,8 @@ export default function App() {
               title: "City Details",
             }}
           />
-          <Stack.Screen name="About" component={AboutScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
